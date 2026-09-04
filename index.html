@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pherusa — Microfrota de Drones Navais</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{
+    --navy-deep:#050d14;
+    --navy-panel:#0c1b26;
+    --navy-panel-2:#102431;
+    --line:#1c3441;
+    --teal:#4fc4b0;
+    --teal-dim:#2c6e64;
+    --coral:#e08a63;
+    --ink:#e9f1f3;
+    --ink-dim:#8fa8b3;
+    --yellow:#e8c95c;
+    --purple:#9b7fd4;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--navy-deep);
+    color:var(--ink);
+    font-family:'Newsreader', serif;
+    line-height:1.5;
+  }
+  .mono{font-family:'IBM Plex Mono', monospace;}
+  a{color:inherit;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    min-height:92vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    padding:2.5rem clamp(1.5rem, 6vw, 5rem) 3rem;
+    overflow:hidden;
+    border-bottom:1px solid var(--line);
+  }
+  .hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(circle at 82% 20%, rgba(79,196,176,.16), transparent 45%),
+      radial-gradient(circle at 15% 85%, rgba(155,127,212,.10), transparent 50%);
+    pointer-events:none;
+  }
+  .hero svg.rings{
+    position:absolute;
+    right:-8%;
+    top:50%;
+    transform:translateY(-50%);
+    width:min(60vw, 640px);
+    opacity:.5;
+    pointer-events:none;
+  }
+  .topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    position:relative;
+    z-index:2;
+  }
+  .brand{
+    display:flex;
+    align-items:baseline;
+    gap:.6rem;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:.85rem;
+    letter-spacing:.04em;
+    color:var(--ink-dim);
+  }
+  .brand b{color:var(--ink); font-weight:600;}
+  .navlinks{
+    display:flex;
+    gap:2rem;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:.8rem;
+    color:var(--ink-dim);
+  }
+  .navlinks a{text-decoration:none; border-bottom:1px solid transparent; transition:border-color .2s;}
+  .navlinks a:hover{border-color:var(--teal);}
+
+  .hero-main{
+    position:relative;
+    z-index:2;
+    max-width:900px;
+  }
+  .hero-tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:.8rem;
+    color:var(--teal);
+    margin:0 0 1.1rem;
+  }
+  .hero h1{
+    font-size:clamp(2.6rem, 7vw, 5.4rem);
+    font-weight:500;
+    line-height:1.02;
+    margin:0 0 1.3rem;
+    letter-spacing:-.01em;
+  }
+  .hero h1 em{font-style:italic; color:var(--teal); font-weight:400;}
+  .hero p.lede{
+    font-size:1.2rem;
+    color:var(--ink-dim);
+    max-width:560px;
+    margin:0;
+  }
+  .hero-stats{
+    position:relative;
+    z-index:2;
+    display:flex;
+    flex-wrap:wrap;
+    gap:clamp(1.5rem, 4vw, 3.5rem);
+    border-top:1px solid var(--line);
+    padding-top:1.5rem;
+    margin-top:2rem;
+  }
+  .stat b{
+    display:block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:1.6rem;
+    color:var(--teal);
+    font-weight:500;
+  }
+  .stat span{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:.75rem;
+    color:var(--ink-dim);
+  }
+
+  /* ---------- SECTIONS ---------- */
+  section{
+    padding:5.5rem clamp(1.5rem, 6vw, 5rem);
+    border-bottom:1px solid var(--line);
+  }
+  .section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:2rem;
+    margin-bottom:3rem;
+  }
+  .section-head h2{
+    font-size:clamp(1.8rem, 3.4vw, 2.6rem);
+    font-weight:500;
+    margin:0;
+    max-width:640px;
+  }
+  .section-index{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:.8rem;
+    color:var(--ink-dim);
+    white-space:nowrap;
+  }
+
+  /* about */
+  .about-grid{
+    display:grid;
+    grid-template-columns:1.1fr .9fr;
+    gap:4rem;
+    align-items:start;
+  }
+  .about-grid p{
+    font-size:1.08rem;
+    color:#c7d6db;
+    max-width:60ch;
+  }
+  .about-grid p + p{margin-top:1.2rem;}
+  .fleet-diagram{
+    border:1px solid var(--line);
+    border-radius:4px;
+    background:var(--navy-panel);
+    padding:1.6rem;
+  }
+  .fleet-diagram svg{width:100%; height:auto; display:block;}
+  .fleet-diagram figcaption{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:.72rem;
+    color:var(--ink-dim);
+    margin-top:1rem;
+    padding-top:1rem;
+    border-top:1px solid var(--line);
+  }
+
+  /* how it works */
+  .steps{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+  }
+  .step{
+    background:var(--navy-deep);
+    padding:1.8rem 1.6rem 2.2rem;
+  }
+  .step .num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:.8rem;
+    color:var(--teal);
+  }
+  .step h3{
+    font-size:1.15rem;
+    font-weight:500;
+    margin:.9rem 0 .6rem;
+  }
+  .step p{
+    font-size:.92rem;
+    color:var(--ink-dim);
+    margin:0;
+  }
+
+  /* live monitoring / iframe */
+  .panel-frame{
+    border:1px solid var(--line);
+    border-radius:4px;
+    overflow:hidden;
+    background:var(--navy-panel);
+  }
+  .panel-bar{
+    display:flex;
+    align-items:center;
+    gap:.6rem;
+    padding:.85rem 1.2rem;
+    border-bottom:1px solid var(--line);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:.75rem;
+    color:var(--ink-dim);
+  }
+  .dot{width:8px; height:8px; border-radius:50%; background:var(--line);}
+  .dot.live{background:var(--teal); box-shadow:0 0 0 3px rgba(79,196,176,.18);}
+  .panel-bar .url{margin-left:.4rem; color:#5f7883; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .iframe-wrap{position:relative; width:100%; padding-top:62%; background:#020608;}
+  .iframe-wrap iframe{
+    position:absolute; inset:0; width:100%; height:100%; border:0;
+  }
+  .panel-note{
+    font-size:.85rem;
+    color:var(--ink-dim);
+    padding:1rem 1.2rem;
+    border-top:1px solid var(--line);
+  }
+
+  /* cta */
+  .cta-block{
+    text-align:center;
+    padding-top:0;
+  }
+  .cta-block p{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:.85rem;
+    color:var(--ink-dim);
+    margin:0 0 1.6rem;
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:.6rem;
+    background:var(--teal);
+    color:#05130f;
+    border:none;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:.9rem;
+    font-weight:600;
+    letter-spacing:.01em;
+    padding:1rem 1.9rem;
+    border-radius:2px;
+    cursor:pointer;
+    transition:background .2s ease, transform .2s ease;
+  }
+  .btn:hover{background:#63d6c1; transform:translateY(-1px);}
+  .btn:active{transform:translateY(0);}
+  .btn-outline{
+    background:transparent;
+    color:var(--teal);
+    border:1px solid var(--teal-dim);
+  }
+  .btn-outline:hover{background:rgba(79,196,176,.08); border-color:var(--teal);}
+  .panel-fallback{
+    padding:0 1.2rem 1.3rem;
+  }
+  a.btn{text-decoration:none;}
+
+  /* synthetic dashboard */
+  #synthetic{border-bottom:none;}
+  .synth-tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:.75rem;
+    color:var(--coral);
+    border:1px solid var(--coral);
+    padding:.2rem .55rem;
+    border-radius:2px;
+  }
+  .chart-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:1.4rem;
+  }
+  .chart-card{
+    background:var(--navy-panel);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:1.4rem 1.4rem 1rem;
+  }
+  .chart-card h4{
+    margin:0 0 .2rem;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:.78rem;
+    letter-spacing:.02em;
+    color:var(--ink-dim);
+    font-weight:500;
+  }
+  .chart-card .val{
+    font-size:1.4rem;
+    margin:0 0 1rem;
+  }
+  .chart-card canvas{max-height:260px;}
+  .full-span{grid-column:1 / -1;}
+  .legend-row{
+    display:flex;
+    gap:1.4rem;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:.72rem;
+    color:var(--ink-dim);
+    margin-top:.8rem;
+  }
+  .legend-row span{display:inline-flex; align-items:center; gap:.4rem;}
+  .legend-row i{width:9px; height:9px; display:inline-block; border-radius:1px;}
+
+  footer{
+    padding:2.4rem clamp(1.5rem, 6vw, 5rem);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:.75rem;
+    color:var(--ink-dim);
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:1rem;
+  }
+
+  @media (max-width: 900px){
+    .about-grid{grid-template-columns:1fr;}
+    .steps{grid-template-columns:1fr 1fr;}
+    .chart-grid{grid-template-columns:1fr;}
+    .hero svg.rings{display:none;}
+  }
+  @media (max-width: 560px){
+    .steps{grid-template-columns:1fr;}
+    .navlinks{display:none;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    .btn{transition:none;}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <svg class="rings" viewBox="0 0 500 500" fill="none">
+    <circle cx="250" cy="250" r="60" stroke="#4fc4b0" stroke-width="1"/>
+    <circle cx="250" cy="250" r="120" stroke="#4fc4b0" stroke-width="1" opacity=".7"/>
+    <circle cx="250" cy="250" r="180" stroke="#4fc4b0" stroke-width="1" opacity=".45"/>
+    <circle cx="250" cy="250" r="240" stroke="#4fc4b0" stroke-width="1" opacity=".22"/>
+  </svg>
+
+  <div class="topbar">
+    <div class="brand mono">〜 <b>PHERUSA</b> / microfrota autônoma</div>
+    <nav class="navlinks">
+      <a href="#sobre">Sobre</a>
+      <a href="#funcionamento">Funcionamento</a>
+      <a href="#monitoramento">Monitoramento</a>
+      <a href="#synthetic">Dashboard</a>
+    </nav>
+  </div>
+
+  <div class="hero-main">
+    <p class="hero-tag mono">PROJETO DE MONITORAMENTO HÍDRICO AUTÔNOMO</p>
+    <h1>Uma frota pequena,<br><em>olhando a água</em><br>o tempo todo.</h1>
+    <p class="lede">A Pherusa é uma microfrota de drones navais que navega rios e reservatórios de forma autônoma, medindo assoreamento, qualidade da água e riscos operacionais — e enviando tudo em tempo real para uma central de decisão.</p>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat"><b>2</b><span>USVs EM CAMPO</span></div>
+    <div class="stat"><b>24/7</b><span>TELEMETRIA CONTÍNUA</span></div>
+    <div class="stat"><b>3</b><span>NÍVEIS DE ALERTA</span></div>
+    <div class="stat"><b>&lt;5s</b><span>LATÊNCIA DE LEITURA</span></div>
+  </div>
+</header>
+
+<section id="sobre">
+  <div class="section-head">
+    <h2>Uma ninfa do mar como referência para uma frota que nunca para de observar</h2>
+    <span class="section-index mono">01 — SOBRE</span>
+  </div>
+  <div class="about-grid">
+    <div>
+      <p>Na mitologia grega, Pherusa é uma das Nereidas — ninfas do mar responsáveis por guiar embarcações com segurança. O projeto empresta esse nome para descrever sua proposta: uma pequena frota de <b>USVs (Unmanned Surface Vehicles)</b> que patrulha corpos d'água de forma contínua, substituindo levantamentos pontuais e caros por uma vigilância constante e barata.</p>
+      <p>Cada drone aquático carrega sensores de profundidade, turbidez e posicionamento, além de um rádio de telemetria que reporta sinal, rota e anomalias para uma central. O objetivo não é uma única medição perfeita, mas uma série longa e confiável — capaz de mostrar como o assoreamento e a qualidade da água evoluem mês a mês, ano após ano.</p>
+      <p>Essa continuidade é o que torna a Pherusa útil para operadores de reservatórios, portos e comitês de bacia: decisões de dragagem, alerta de risco e manutenção deixam de depender de vistorias esporádicas.</p>
+    </div>
+    <figure class="fleet-diagram">
+      <svg viewBox="0 0 360 260" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="wave" width="40" height="10" patternUnits="userSpaceOnUse">
+            <path d="M0 5 Q10 0 20 5 T40 5" stroke="#1c3441" stroke-width="1" fill="none"/>
+          </pattern>
+        </defs>
+        <rect x="0" y="140" width="360" height="120" fill="url(#wave)"/>
+        <line x1="0" y1="150" x2="360" y2="150" stroke="#1c3441" stroke-width="1"/>
+        <line x1="0" y1="185" x2="360" y2="185" stroke="#1c3441" stroke-width="1"/>
+        <line x1="0" y1="220" x2="360" y2="220" stroke="#1c3441" stroke-width="1"/>
+
+        <!-- drone 1 -->
+        <g transform="translate(95,150)">
+          <ellipse cx="0" cy="0" rx="22" ry="8" fill="#e8c95c"/>
+          <circle cx="0" cy="-14" r="4" fill="#e8c95c"/>
+          <line x1="0" y1="-10" x2="0" y2="0" stroke="#e8c95c" stroke-width="1.5"/>
+          <path d="M0 8 C -18 40 -14 90 -6 118" stroke="#e8c95c" stroke-width="1" fill="none" stroke-dasharray="2 3"/>
+        </g>
+        <!-- drone 2 -->
+        <g transform="translate(230,150)">
+          <ellipse cx="0" cy="0" rx="22" ry="8" fill="#9b7fd4"/>
+          <circle cx="0" cy="-14" r="4" fill="#9b7fd4"/>
+          <line x1="0" y1="-10" x2="0" y2="0" stroke="#9b7fd4" stroke-width="1.5"/>
+          <path d="M0 8 C 16 40 10 90 4 118" stroke="#9b7fd4" stroke-width="1" fill="none" stroke-dasharray="2 3"/>
+        </g>
+
+        <!-- signal to central station -->
+        <g transform="translate(180,40)">
+          <rect x="-14" y="-10" width="28" height="20" fill="none" stroke="#4fc4b0" stroke-width="1.2"/>
+          <line x1="0" y1="10" x2="0" y2="24" stroke="#4fc4b0" stroke-width="1.2"/>
+          <path d="M-24 24 L24 24" stroke="#4fc4b0" stroke-width="1.2"/>
+        </g>
+        <line x1="180" y1="64" x2="95" y2="136" stroke="#4fc4b0" stroke-width="1" stroke-dasharray="1 4"/>
+        <line x1="180" y1="64" x2="230" y2="136" stroke="#4fc4b0" stroke-width="1" stroke-dasharray="1 4"/>
+
+        <text x="0" y="20" fill="#8fa8b3" font-family="IBM Plex Mono, monospace" font-size="9">CENTRAL DE MONITORAMENTO</text>
+        <text x="63" y="140" fill="#e8c95c" font-family="IBM Plex Mono, monospace" font-size="9">USV-DRONE-01</text>
+        <text x="198" y="140" fill="#9b7fd4" font-family="IBM Plex Mono, monospace" font-size="9">USV-DRONE-02</text>
+      </svg>
+      <figcaption>Esquema simplificado: dois USVs em patrulha reportam telemetria de sinal, rota e sensores para a central, que consolida os dados em dashboards.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="funcionamento">
+  <div class="section-head">
+    <h2>Do sensor à decisão, em quatro etapas</h2>
+    <span class="section-index mono">02 — FUNCIONAMENTO</span>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <span class="num mono">01</span>
+      <h3>Patrulha autônoma</h3>
+      <p>Os USVs seguem rotas pré-definidas ou adaptativas sobre o corpo d'água, sem intervenção manual contínua.</p>
+    </div>
+    <div class="step">
+      <span class="num mono">02</span>
+      <h3>Leitura de sensores</h3>
+      <p>Ecobatímetro, turbidímetro e GPS registram profundidade, assoreamento e posição a cada trecho percorrido.</p>
+    </div>
+    <div class="step">
+      <span class="num mono">03</span>
+      <h3>Transmissão de telemetria</h3>
+      <p>Sinal médio, status de bateria e alertas de prioridade são enviados por rádio para a central em tempo real.</p>
+    </div>
+    <div class="step">
+      <span class="num mono">04</span>
+      <h3>Consolidação e alerta</h3>
+      <p>Os dados chegam a um painel único, onde tendências de longo prazo e alertas críticos ficam visíveis para a equipe.</p>
+    </div>
+  </div>
+</section>
+
+<section id="monitoramento">
+  <div class="section-head">
+    <h2>Painel operacional em produção, no Databricks</h2>
+    <span class="section-index mono">03 — MONITORAMENTO</span>
+  </div>
+  <div class="panel-frame">
+    <div class="panel-bar">
+      <span class="dot live"></span> AO VIVO
+      <span class="url">dbc-59d2184d-2684.cloud.databricks.com/dashboardsv3/…/published</span>
+    </div>
+    <div class="iframe-wrap">
+    </div>
+    <p class="panel-note">Este painel exige login no workspace do Databricks para carregar. Se a área acima aparecer em branco ou travada numa tela de autenticação, use o botão abaixo para abrir o dashboard direto no Databricks, em uma nova aba.</p>
+    <div class="panel-fallback">
+      <a class="btn btn-outline" href="https://dbc-59d2184d-2684.cloud.databricks.com/dashboardsv3/01f1a6f77c5b1262a70eea5cb9359f4a/published?o=7474657962548831" target="_blank" rel="noopener noreferrer">
+        Abrir painel no Databricks ↗
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="cta-block" style="border-bottom:1px solid var(--line);">
+  <p class="mono">SEM ACESSO AO WORKSPACE? VEJA O MESMO PAINEL COM DADOS DE EXEMPLO</p>
+  <button class="btn" id="goSynthetic">Dashboard com dados sintéticos ↓</button>
+</section>
+
+<section id="synthetic">
+  <div class="section-head">
+    <h2>Mesma leitura, dados gerados para demonstração</h2>
+    <span class="synth-tag">DADOS SINTÉTICOS</span>
+  </div>
+
+  <div class="chart-grid">
+    <div class="chart-card full-span">
+      <h4>EVOLUÇÃO DOS ALERTAS POR PRIORIDADE</h4>
+      <p class="val mono">SINAL MÉDIO (dBm) · 2012–2026</p>
+      <canvas id="chartAlertas"></canvas>
+      <div class="legend-row">
+        <span><i style="background:#e8c95c"></i>USV-DRONE-01</span>
+        <span><i style="background:#9b7fd4"></i>USV-DRONE-02</span>
+      </div>
+    </div>
+
+    <div class="chart-card full-span">
+      <h4>DÉFICIT DE ASSOREAMENTO AO LONGO DOS ANOS</h4>
+      <p class="val mono">MÉDIA MENSAL ACUMULADA</p>
+      <canvas id="chartAssoreamento"></canvas>
+      <div class="legend-row">
+        <span><i style="background:#e8c95c"></i>USV-DRONE-01</span>
+        <span><i style="background:#9b7fd4"></i>USV-DRONE-02</span>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <h4>COMPARAÇÃO OPERACIONAL DA MICROFROTA</h4>
+      <p class="val mono">HORAS EM PATRULHA / SEMANA</p>
+      <canvas id="chartOperacional"></canvas>
+    </div>
+
+    <div class="chart-card">
+      <h4>DISTRIBUIÇÃO DE ALERTAS POR NÍVEL</h4>
+      <p class="val mono">ÚLTIMOS 12 MESES</p>
+      <canvas id="chartNiveis"></canvas>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>PROJETO PHERUSA — MICROFROTA DE DRONES NAVAIS</span>
+  <span>Dados operacionais reais no painel Databricks · dados de demonstração gerados localmente</span>
+</footer>
+
+<script>
+document.getElementById('goSynthetic').addEventListener('click', () => {
+  document.getElementById('synthetic').scrollIntoView({behavior:'smooth'});
+});
+
+Chart.defaults.color = '#8fa8b3';
+Chart.defaults.font.family = "'IBM Plex Mono', monospace";
+Chart.defaults.font.size = 10.5;
+Chart.defaults.borderColor = '#1c3441';
+
+function months(n){
+  const out=[]; let y=2012, m=1;
+  for(let i=0;i<n;i++){
+    out.push(y + '-' + String(m).padStart(2,'0'));
+    m+=4; if(m>12){m-=12; y++;}
+  }
+  return out;
+}
+function seededRandom(seed){
+  let s = seed;
+  return function(){
+    s = (s * 9301 + 49297) % 233280;
+    return s / 233280;
+  };
+}
+const rnd = seededRandom(42);
+const labels = months(43);
+
+// signal chart
+const s1 = labels.map((_,i)=> -75 + Math.sin(i/3)*2.5 + (rnd()-0.5)*3);
+const s2 = labels.map((_,i)=> -76 + Math.cos(i/4)*2.8 + (rnd()-0.5)*3.4);
+
+new Chart(document.getElementById('chartAlertas'), {
+  type:'line',
+  data:{
+    labels,
+    datasets:[
+      {label:'USV-DRONE-01', data:s1, borderColor:'#e8c95c', backgroundColor:'transparent', borderWidth:1.4, pointRadius:0, tension:.3},
+      {label:'USV-DRONE-02', data:s2, borderColor:'#9b7fd4', backgroundColor:'transparent', borderWidth:1.4, pointRadius:0, tension:.3},
+    ]
+  },
+  options:{
+    responsive:true,
+    plugins:{legend:{display:false}},
+    scales:{
+      x:{ticks:{maxTicksLimit:10}, grid:{color:'#132531'}},
+      y:{title:{display:true,text:'AVERAGE SINAL (dBm)'}, grid:{color:'#132531'}}
+    }
+  }
+});
+
+// sedimentation deficit
+const d1 = labels.map((_,i)=> Math.max(0.2, 1.4 + Math.sin(i/5)*0.9 + rnd()*0.8));
+const d2 = labels.map((_,i)=> Math.max(0.1, 0.9 + Math.cos(i/6)*0.6 + rnd()*0.6));
+
+new Chart(document.getElementById('chartAssoreamento'), {
+  type:'bar',
+  data:{
+    labels,
+    datasets:[
+      {label:'USV-DRONE-01', data:d1, backgroundColor:'#e8c95c'},
+      {label:'USV-DRONE-02', data:d2, backgroundColor:'#9b7fd4'},
+    ]
+  },
+  options:{
+    responsive:true,
+    plugins:{legend:{display:false}},
+    scales:{
+      x:{stacked:true, ticks:{maxTicksLimit:10}, grid:{display:false}},
+      y:{stacked:true, title:{display:true,text:'AVERAGE DEFICIT'}, grid:{color:'#132531'}}
+    }
+  }
+});
+
+// operational comparison radar
+new Chart(document.getElementById('chartOperacional'), {
+  type:'radar',
+  data:{
+    labels:['Autonomia','Cobertura','Precisão sensor','Sinal médio','Uptime'],
+    datasets:[
+      {label:'USV-DRONE-01', data:[78,85,72,64,91], borderColor:'#e8c95c', backgroundColor:'rgba(232,201,92,.12)', pointRadius:2},
+      {label:'USV-DRONE-02', data:[82,74,88,70,87], borderColor:'#9b7fd4', backgroundColor:'rgba(155,127,212,.12)', pointRadius:2},
+    ]
+  },
+  options:{
+    responsive:true,
+    plugins:{legend:{position:'bottom', labels:{boxWidth:9, boxHeight:9}}},
+    scales:{
+      r:{
+        angleLines:{color:'#1c3441'}, grid:{color:'#1c3441'},
+        pointLabels:{color:'#8fa8b3', font:{size:9}},
+        ticks:{display:false}, suggestedMin:0, suggestedMax:100
+      }
+    }
+  }
+});
+
+// alert level distribution
+new Chart(document.getElementById('chartNiveis'), {
+  type:'doughnut',
+  data:{
+    labels:['Crítico','Atenção','Normal'],
+    datasets:[{
+      data:[14, 37, 49],
+      backgroundColor:['#e08a63','#e8c95c','#4fc4b0'],
+      borderColor:'#0c1b26',
+      borderWidth:2
+    }]
+  },
+  options:{
+    responsive:true,
+    plugins:{legend:{position:'bottom', labels:{boxWidth:9, boxHeight:9}}},
+    cutout:'62%'
+  }
+});
+</script>
+
+</body>
+</html>

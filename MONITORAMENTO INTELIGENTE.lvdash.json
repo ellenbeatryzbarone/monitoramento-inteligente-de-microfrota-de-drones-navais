@@ -1,0 +1,1194 @@
+{
+  "datasets": [
+    {
+      "name": "53ea1109",
+      "displayName": "dim_calendario",
+      "config": {
+        "version": "1.1",
+        "source": "workspace.default.dim_calendario",
+        "dimensions": [
+          {
+            "expr": "source.*"
+          }
+        ],
+        "measures": [
+          {
+            "name": "count",
+            "expr": "COUNT(*)",
+            "comment": "Represents the total number of rows in the dataset. Use this measure to count all",
+            "displayName": "Count"
+          }
+        ]
+      }
+    },
+    {
+      "name": "79b73e45",
+      "displayName": "gold_alertas",
+      "config": {
+        "version": "1.1",
+        "source": "workspace.default.gold_alertas",
+        "dimensions": [
+          {
+            "expr": "source.*"
+          }
+        ],
+        "measures": [
+          {
+            "name": "count",
+            "expr": "COUNT(*)",
+            "comment": "Represents the total number of rows in the dataset. Use this measure to count all",
+            "displayName": "Count"
+          }
+        ]
+      }
+    },
+    {
+      "name": "e1c1f941",
+      "displayName": "gold_assoreamento",
+      "config": {
+        "version": "1.1",
+        "source": "workspace.default.gold_assoreamento",
+        "dimensions": [
+          {
+            "expr": "source.*"
+          }
+        ],
+        "measures": [
+          {
+            "name": "count",
+            "expr": "COUNT(*)",
+            "comment": "Represents the total number of rows in the dataset. Use this measure to count all",
+            "displayName": "Count"
+          }
+        ]
+      }
+    },
+    {
+      "name": "bfa4c5f5",
+      "displayName": "gold_rastreabilidade",
+      "config": {
+        "version": "1.1",
+        "source": "workspace.default.gold_rastreabilidade",
+        "dimensions": [
+          {
+            "expr": "source.*"
+          }
+        ],
+        "measures": [
+          {
+            "name": "count",
+            "expr": "COUNT(*)",
+            "comment": "Represents the total number of rows in the dataset. Use this measure to count all",
+            "displayName": "Count"
+          }
+        ]
+      }
+    },
+    {
+      "name": "0549bd6b",
+      "displayName": "gold_resumo_operacional",
+      "config": {
+        "version": "1.1",
+        "source": "workspace.default.gold_resumo_operacional",
+        "dimensions": [
+          {
+            "expr": "source.*"
+          }
+        ],
+        "measures": [
+          {
+            "name": "count",
+            "expr": "COUNT(*)",
+            "comment": "Represents the total number of rows in the dataset. Use this measure to count all",
+            "displayName": "Count"
+          }
+        ]
+      }
+    },
+    {
+      "name": "0727f6cf",
+      "displayName": "gold_telemetria",
+      "config": {
+        "version": "1.1",
+        "source": "workspace.default.gold_telemetria",
+        "dimensions": [
+          {
+            "expr": "source.*"
+          }
+        ],
+        "measures": [
+          {
+            "name": "count",
+            "expr": "COUNT(*)",
+            "comment": "Represents the total number of rows in the dataset. Use this measure to count all",
+            "displayName": "Count"
+          }
+        ]
+      }
+    },
+    {
+      "name": "8160283d",
+      "displayName": "gold_resumo_operacional",
+      "config": {
+        "version": "1.1",
+        "source": "workspace.default.gold_resumo_operacional",
+        "dimensions": [
+          {
+            "expr": "source.*"
+          }
+        ],
+        "measures": [
+          {
+            "name": "count",
+            "expr": "COUNT(*)",
+            "comment": "Represents the total number of rows in the dataset. Use this measure to count all",
+            "displayName": "Count"
+          }
+        ]
+      }
+    },
+    {
+      "name": "a64a917a",
+      "displayName": "silver_drones",
+      "config": {
+        "version": "1.1",
+        "source": "workspace.default.silver_drones",
+        "dimensions": [
+          {
+            "expr": "source.*"
+          }
+        ],
+        "measures": [
+          {
+            "name": "count",
+            "expr": "COUNT(*)",
+            "comment": "Represents the total number of rows in the dataset. Use this measure to count all",
+            "displayName": "Count"
+          }
+        ]
+      }
+    }
+  ],
+  "pages": [
+    {
+      "name": "2fa7b060",
+      "displayName": "MONITORAMENTO INTELIGENTE DA MICROFROTA DE DRONES AQUÁTICOS",
+      "layout": [
+        {
+          "widget": {
+            "name": "evolucao-dos-alertas-por-prioridade",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "0727f6cf",
+                  "fields": [
+                    {
+                      "name": "id_drone",
+                      "expression": "`id_drone`"
+                    },
+                    {
+                      "name": "ano_mes",
+                      "expression": "`ano_mes`"
+                    },
+                    {
+                      "name": "avg(sinal_medio_dbm)",
+                      "expression": "AVG(`sinal_medio_dbm`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "<span style=\"text-align:center;display:block\"><span style=\"font-size: 14px;\"> Evolução dos Alertas por Prioridade</span></span>",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "ano_mes",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "avg(sinal_medio_dbm)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "id_drone",
+                  "scale": {
+                    "type": "categorical",
+                    "mappings": [
+                      {
+                        "value": "USV-DRONE-01",
+                        "color": {
+                          "themeColorType": "visualizationColors",
+                          "position": 5
+                        }
+                      },
+                      {
+                        "value": "USV-DRONE-02",
+                        "color": "#9604FF"
+                      }
+                    ]
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 1,
+            "width": 7,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "evolucao-alertas-prioridade-anual",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "79b73e45",
+                  "fields": [
+                    {
+                      "name": "prioridade_alerta",
+                      "expression": "`prioridade_alerta`"
+                    },
+                    {
+                      "name": "ano_mes",
+                      "expression": "`ano_mes`"
+                    },
+                    {
+                      "name": "sum(quantidade_alertas)",
+                      "expression": "SUM(`quantidade_alertas`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Evolução dos Alertas por Prioridade Anual\n<p>&nbsp;</p>\n",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "ano_mes",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(quantidade_alertas)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "prioridade_alerta",
+                  "scale": {
+                    "type": "categorical",
+                    "mappings": [
+                      {
+                        "value": "Baixa",
+                        "color": {
+                          "themeColorType": "visualizationColors",
+                          "position": 5
+                        }
+                      },
+                      {
+                        "value": "Alta",
+                        "color": "#10F809"
+                      },
+                      {
+                        "value": "Media",
+                        "color": {
+                          "themeColorType": "visualizationColors",
+                          "position": 4
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 12,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "comparacao-operacional-da-microfrota",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "0549bd6b",
+                  "fields": [
+                    {
+                      "name": "tipo_operacao",
+                      "expression": "`tipo_operacao`"
+                    },
+                    {
+                      "name": "id_drone",
+                      "expression": "`id_drone`"
+                    },
+                    {
+                      "name": "sum(total_missoes)",
+                      "expression": "SUM(`total_missoes`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "> <span style=\"text-align:center;display:block;\"><span style=\"font-size: 14px;\">**Comparação Operacional da Microfrota**</span></span>\n<p>&nbsp;</p>\n",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "id_drone",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(total_missoes)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "tipo_operacao",
+                  "scale": {
+                    "type": "categorical",
+                    "mappings": [
+                      {
+                        "value": "Varredura Batimetrica",
+                        "color": "#D432DD"
+                      },
+                      {
+                        "value": "Dragagem de Precisao",
+                        "color": "#6715FF"
+                      }
+                    ]
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 12,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "deficit-assoreamento-ao-longo-dos-anos",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "e1c1f941",
+                  "fields": [
+                    {
+                      "name": "id_drone",
+                      "expression": "`id_drone`"
+                    },
+                    {
+                      "name": "ano_mes",
+                      "expression": "`ano_mes`"
+                    },
+                    {
+                      "name": "avg(deficit_assoreamento_medio_m)",
+                      "expression": "AVG(`deficit_assoreamento_medio_m`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "<span style=\"text-align:center;display:block;\">Deficit de assoreamento ao longo dos anos</span>",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "ano_mes",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "avg(deficit_assoreamento_medio_m)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "id_drone",
+                  "scale": {
+                    "type": "categorical",
+                    "mappings": [
+                      {
+                        "value": "USV-DRONE-02",
+                        "color": "#9604FF"
+                      },
+                      {
+                        "value": "USV-DRONE-01",
+                        "color": {
+                          "themeColorType": "visualizationColors",
+                          "position": 5
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 7,
+            "y": 1,
+            "width": 5,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "telemetria",
+            "queries": [
+              {
+                "name": "dashboards/01f1a6f77c5b1262a70eea5cb9359f4a/datasets/01f1a6f7c74316bbab3082146a40632c_data",
+                "query": {
+                  "datasetName": "53ea1109",
+                  "fields": [
+                    {
+                      "name": "data",
+                      "expression": "`data`"
+                    },
+                    {
+                      "name": "data_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "<span style=\"text-align:left;display:block\"><span style=\"font-size:10px\">**MICROFROTA DE DRONES AQUÁTICOS**</span></span>",
+                  "fields": []
+                }
+              },
+              "widgetType": "filter-date-picker",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "data",
+                    "queryName": "dashboards/01f1a6f77c5b1262a70eea5cb9359f4a/datasets/01f1a6f7c74316bbab3082146a40632c_data"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "mapa-risco-assoreamento",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "bfa4c5f5",
+                  "fields": [
+                    {
+                      "name": "classificacao_assoreamento",
+                      "expression": "`classificacao_assoreamento`"
+                    },
+                    {
+                      "name": "latitude",
+                      "expression": "`latitude`"
+                    },
+                    {
+                      "name": "longitude",
+                      "expression": "`longitude`"
+                    }
+                  ],
+                  "filters": [
+                    {
+                      "expression": "`classificacao_assoreamento` IN ('Atencao', 'Critico')"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "MAPA DE RISCO DE ASSOREAMENTO",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "symbol-map",
+              "encodings": {
+                "coordinates": {
+                  "latitude": {
+                    "fieldName": "latitude"
+                  },
+                  "longitude": {
+                    "fieldName": "longitude"
+                  }
+                },
+                "color": {
+                  "fieldName": "classificacao_assoreamento",
+                  "scale": {
+                    "type": "categorical",
+                    "mappings": [
+                      {
+                        "value": "Atencao",
+                        "color": "#FF9003"
+                      },
+                      {
+                        "value": "Critico",
+                        "color": "#FF0D0D"
+                      }
+                    ]
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 7,
+            "width": 12,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "166ca44a",
+            "multilineTextboxSpec": {
+              "lines": [
+                "<span style=\"text-align:center;display:block\"><span style=\"font-size:14px;font-family:Georgia;color:#F0F0F0;text-decoration:underline\">TELEMETRIA E COMUNICAÇÃO DE DADOS</span></span>"
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 18,
+            "width": 12,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "perda-de-pacotes-ao-longo-do-tempo",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "0727f6cf",
+                  "fields": [
+                    {
+                      "name": "id_drone",
+                      "expression": "`id_drone`"
+                    },
+                    {
+                      "name": "ano_mes",
+                      "expression": "`ano_mes`"
+                    },
+                    {
+                      "name": "avg(perda_media_pacotes_pct)",
+                      "expression": "AVG(`perda_media_pacotes_pct`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "<span style=\"text-align:center;display:block;\">Perda de pacotes ao longo do tempo</span>",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "ano_mes",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "avg(perda_media_pacotes_pct)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "id_drone",
+                  "scale": {
+                    "type": "categorical",
+                    "mappings": [
+                      {
+                        "value": "USV-DRONE-01",
+                        "color": {
+                          "themeColorType": "visualizationColors",
+                          "position": 5
+                        }
+                      },
+                      {
+                        "value": "USV-DRONE-02",
+                        "color": "#9604FF"
+                      }
+                    ]
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 19,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "comparacao-desempenho-tecnologia",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "0727f6cf",
+                  "fields": [
+                    {
+                      "name": "meio_comunicacao",
+                      "expression": "`meio_comunicacao`"
+                    },
+                    {
+                      "name": "sum(latencia_media_ms)",
+                      "expression": "SUM(`latencia_media_ms`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Comparação de Desempenho por tecnologia ",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "mark": {
+                "colors": [
+                  {
+                    "themeColorType": "selectionColor"
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 2
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 3
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 4
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 5
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 6
+                  },
+                  {
+                    "themeColorType": "visualizationColors",
+                    "position": 7
+                  }
+                ]
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "meio_comunicacao",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(latencia_media_ms)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 19,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "qualidade-sinal-categoria",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "0727f6cf",
+                  "fields": [
+                    {
+                      "name": "id_drone",
+                      "expression": "`id_drone`"
+                    },
+                    {
+                      "name": "classificacao_sinal_telemetria",
+                      "expression": "`classificacao_sinal_telemetria`"
+                    },
+                    {
+                      "name": "count(*)",
+                      "expression": "COUNT(`*`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "<span style=\"text-align:center;display:block;\">Qualidade do sinal por categoria</span>",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "classificacao_sinal_telemetria",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "count(*)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "id_drone",
+                  "scale": {
+                    "type": "categorical",
+                    "mappings": [
+                      {
+                        "value": "USV-DRONE-02",
+                        "color": "#9604FF"
+                      },
+                      {
+                        "value": "USV-DRONE-01",
+                        "color": {
+                          "themeColorType": "visualizationColors",
+                          "position": 5
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 25,
+            "width": 12,
+            "height": 4
+          }
+        },
+        {
+          "widget": {
+            "name": "d0d7604c",
+            "multilineTextboxSpec": {
+              "lines": [
+                "<span style=\"text-align:center;display:block;\"> <span style=\"font-family: Georgia;font-size: 18px;text-decoration: underline;\">Sensores e Navegação</span><br>   </span>"
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 29,
+            "width": 12,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "qualidade-media-dados-por-drone",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "a64a917a",
+                  "fields": [
+                    {
+                      "name": "id_drone",
+                      "expression": "`id_drone`"
+                    },
+                    {
+                      "name": "avg(indice_qualidade_dados)",
+                      "expression": "AVG(`indice_qualidade_dados`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "<span style=\"text-align:center;display:block;\">Qualidade Média dos Dados por Drone</span>",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "id_drone",
+                  "axis": {
+                    "hideTitle": true
+                  },
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "avg(indice_qualidade_dados)",
+                  "axis": {
+                    "hideTitle": true,
+                    "hideLabels": true
+                  },
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "id_drone",
+                  "scale": {
+                    "type": "categorical",
+                    "mappings": [
+                      {
+                        "value": "USV-DRONE-02",
+                        "color": "#9604FF"
+                      },
+                      {
+                        "value": "USV-DRONE-01",
+                        "color": {
+                          "themeColorType": "visualizationColors",
+                          "position": 5
+                        }
+                      }
+                    ],
+                    "sort": {
+                      "by": "natural-order"
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 30,
+            "width": 5,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "estabilidade-dos-drones",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "a64a917a",
+                  "fields": [
+                    {
+                      "name": "id_drone",
+                      "expression": "`id_drone`"
+                    },
+                    {
+                      "name": "ano_mes",
+                      "expression": "`ano_mes`"
+                    },
+                    {
+                      "name": "avg(imu_pitch_deg)",
+                      "expression": "AVG(`imu_pitch_deg`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Estabilidade dos Drones",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "ano_mes",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "avg(imu_pitch_deg)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "id_drone",
+                  "scale": {
+                    "type": "categorical",
+                    "mappings": [
+                      {
+                        "value": "USV-DRONE-01",
+                        "color": {
+                          "themeColorType": "visualizationColors",
+                          "position": 5
+                        }
+                      },
+                      {
+                        "value": "USV-DRONE-02",
+                        "color": "#7F15E2"
+                      }
+                    ]
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 5,
+            "y": 30,
+            "width": 7,
+            "height": 5
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "canvasBackgroundColor": {
+        "light": "#F0F0F0",
+        "dark": "#121317"
+      },
+      "widgetBackgroundColor": {
+        "light": "#F0F0F0",
+        "dark": "#121317"
+      },
+      "widgetBorderColor": {
+        "light": "#171717",
+        "dark": "#9D9DA0"
+      },
+      "fontColor": {
+        "light": "#404040",
+        "dark": "#F7F5F2"
+      },
+      "selectionColor": {
+        "light": "#0061FE",
+        "dark": "#5A9FFF"
+      },
+      "visualizationColors": [
+        "#377EB8",
+        "#4DAF4A",
+        "#984EA3",
+        "#FF7F00",
+        "#FFFF33",
+        "#A65628",
+        "#F781BF"
+      ],
+      "widgetHeaderAlignment": "LEFT",
+      "fontFamily": "Roboto Mono",
+      "widgetPadding": 16,
+      "widgetMargin": 0,
+      "widgetCornerRadius": 0,
+      "widgetShadow": 0,
+      "continuousGradient": {
+        "lightMode": {
+          "fromCategoricalIndex": 0
+        },
+        "darkMode": {
+          "fromCategoricalIndex": 0
+        }
+      },
+      "fontSettings": {
+        "base": {
+          "fontFamily": "Roboto Mono",
+          "fontColor": {
+            "light": "#404040",
+            "dark": "#F7F5F2"
+          },
+          "fontSize": 13,
+          "fontWeight": 400
+        },
+        "widgetTitle": {
+          "fontSize": 15,
+          "fontWeight": 500
+        },
+        "widgetDescription": {
+          "fontSize": 13,
+          "fontWeight": 400
+        },
+        "fieldTitle": {
+          "textCase": "TEXT_CASE_UPPERCASE",
+          "fontColor": {
+            "light": "#535353",
+            "dark": "#DEDDDA"
+          },
+          "fontSize": 12,
+          "fontWeight": 400
+        },
+        "fieldValue": {
+          "fontColor": {
+            "light": "#535353",
+            "dark": "#DEDDDA"
+          },
+          "fontSize": 12,
+          "fontWeight": 400
+        }
+      },
+      "gridLineColor": {
+        "light": "#D1D1D1",
+        "dark": "#3B3B3E"
+      },
+      "axisLineColor": {
+        "light": "#C1C1C1",
+        "dark": "#4F5052"
+      }
+    },
+    "applyModeEnabled": false
+  },
+  "variables": [
+    {
+      "name": "ano_mes",
+      "displayName": "ano_mes",
+      "field": {
+        "options": [
+          {
+            "expression": "SUM(`0727f6cf`.`ano`)"
+          }
+        ]
+      }
+    }
+  ]
+}
